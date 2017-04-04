@@ -1,0 +1,64 @@
+{% extends 'web_app/base.html' %}
+
+{% block title %}State Contribution{% endblock %}
+{% block js %}
+    <script>
+        $(function () {
+            var frm = $('#FORM_ID');
+
+            frm.on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/',
+                    type: "POST",
+                    data: jQuery("form").serialize(),
+                    success: function (response) {
+                        console.log('response');
+                        console.log(response);
+                        $('.form-control').val('');
+                    }
+
+                });
+
+            });
+        });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+<form action="" method="post" id="FORM_ID">{% csrf_token %}
+    <div class="form-group">
+        <label for="InputSpider">Spider: </label>
+        {{form.spider}}
+        {% if form.spider.errors %}
+            {{form.spider.errors}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="Inputredis_key1">Redis_key1: </label>
+        {{form.redis_key1}}
+        {% if form.spider.errors %}
+            {{form.spider.errors}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="Inputredis_key2">Redis_key2: </label>
+        {{form.redis_key2}}
+        {% if form.spider.errors %}
+            {{form.spider.errors}}
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="Inputredis_key3">Redis_key3: </label>
+        {{form.redis_key3}}
+        {% if form.spider.errors %}
+            {{form.spider.errors}}
+        {% endif %}
+    </div>
+    {% if form.non_fields_errors %}
+        {{form.non_fields_errors}}
+    {% endif %}
+    <button type="submit" class="btn btn-default">Search</button>
+</form>
+{% endblock %}
